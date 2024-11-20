@@ -3,8 +3,13 @@ export default function Navbar() {
   const links = [
     {
       icon: "icon",
-      name: "Gestión",
-      url: "/gestion",
+      name: "Inicio",
+      url: "/",
+    },
+    {
+      icon: "icon",
+      name: "Inventario",
+      url: "/Inventario",
     },
     {
       icon: "icon",
@@ -18,7 +23,7 @@ export default function Navbar() {
     },
   ];
   return (
-    <Flex gap="3" justify="center" className="py-3">
+    <Flex gap="3" justify="center" className="py-6">
       {links.map((link) => {
         return (
           <Box key={link.url}>
