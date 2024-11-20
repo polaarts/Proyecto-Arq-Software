@@ -33,9 +33,9 @@ La gestión de inventarios también es centralizada, permitiendo a la matriz mon
 ### E. Requerimientos de reportes y análisis:
 
 - **RF11**: Generación de reportes de inventario, ventas y productos más vendidos.
-- **RF12**: Visualiación de tendencias de ventas mediante gráficos mensuales en donde se incluyen los productos más vendidos, las fechas de mayor demanda y la variabilidad de stock a lo largo del tiempo. Estos gráficos pueden ser barras, líneas de tiempo y tablas dinámicas.
+- **RF12**: Visualización de tendencias de ventas mediante gráficos mensuales en donde se incluyen los productos más vendidos, las fechas de mayor demanda y la variabilidad de stock a lo largo del tiempo. Estos gráficos pueden ser barras, líneas de tiempo y tablas dinámicas.
 
-### F. Requerimientos d seguridad y acceso:
+### F. Requerimientos de seguridad y acceso:
 
 - **RF13**: Control de acceso basado en niveles de seguridad. Los administradores tienen permisos completos para modificar el inventario, mientras que los empleados de bodega tienen acceso limitado a la consulta y actualización de stock. Estos niveles de acceso son destinados a la protección de la integridad de los datos y para garantizar que solamente usuarios autorizados puedan realizar modificaciones.
 
