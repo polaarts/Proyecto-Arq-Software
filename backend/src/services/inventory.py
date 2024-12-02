@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from src.bus import service
-from src.services.inventory import db
+from src.services.db import dbinventory as inventory
 
 def run_inventario_service(s: service.Service):
     s.sinit()
