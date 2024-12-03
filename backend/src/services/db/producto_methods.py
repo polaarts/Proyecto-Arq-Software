@@ -1,25 +1,12 @@
 #!/usr/bin/env python3
 
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
-from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+import sys
+import os
 
-Base = declarative_base()
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-class Producto(Base):
-    __tablename__ = 'productos'
-    id_producto = Column(Integer, primary_key=True, autoincrement=True)
-    nombre_producto = Column(String(100), nullable=False)
-    descripcion = Column(String(255))
-    precio = Column(Float, nullable=False)
-    cantidad = Column(Integer, nullable=False)
-    id_proveedor = Column(Integer)
-    id_sucursal = Column(Integer)
-
-engine = create_engine('sqlite:///inventario.db')
-Base.metadata.create_all(engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
+from src.services.db.db_session import session
+from src.services.db.models import Producto
 
 def consultar_stock(producto_id):
     producto = session.query(Producto).filter_by(id_producto=producto_id).first()
@@ -39,7 +26,6 @@ def crear_producto(producto):
         precio=producto['precio'],
         cantidad=producto['cantidad'],
         id_proveedor=producto['id_proveedor'],
-        id_sucursal=producto['id_sucursal']
     )
     session.add(nuevo_producto)
     session.commit()
@@ -54,6 +40,23 @@ def listar_productos():
             'precio': p.precio,
             'cantidad': p.cantidad,
             'id_proveedor': p.id_proveedor,
-            'id_sucursal': p.id_sucursal
         } for p in productos
     ]
+
+def buscar_productos(filtros):
+    query = db.query(Producto)
+
+    if 'nombre_producto' in filtros:
+        query = query.filter(Producto.nombre_producto.ilike(f"%{filtros['nombre_producto']}%"))
+    if 'tipo' in filtros:
+        query = query.filter(Producto.descripcion.ilike(f"%{filtros['tipo']}%"))
+    if 'marca' in filtros:
+        query = query.filter(Producto.descripcion.ilike(f"%{filtros['marca']}%"))
+    if 'precio' in filtros:
+        precio_filtro = filtros['precio']
+        if 'min' in precio_filtro:
+            query = query.filter(Producto.precio >= precio_filtro['min'])
+        if 'max' in precio_filtro:
+            query = query.filter(Producto.precio <= precio_filtro['max'])
+
+    return query.all()
