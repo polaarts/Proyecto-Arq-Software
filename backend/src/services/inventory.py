@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from src.bus import service
-from src.services.db import producto_methods
+from src.services.db import producto_methods as db
 
 def run_inventario_service(s: service.Service):
     s.sinit()
@@ -16,7 +16,7 @@ def run_inventario_service(s: service.Service):
         action = request.content['action']
 
         if action == 'consultar_producto':
-            producto_id = request.content['producto_id']
+            producto_id = request.content['body']['producto_id']
             producto = db.consultar_stock(producto_id)
             response = service.Response(s.name, {'producto': producto})
 
@@ -65,7 +65,7 @@ def run_inventario_service(s: service.Service):
             response = service.Response(s.name, {'status': 'failure'})
 
         s.send(response)
-        s.close()
+        # s.close()
 
 if __name__ == '__main__':
     s = service.Service('inven')

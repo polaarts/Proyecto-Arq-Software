@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from src.services.db.db_session import session
 from src.services.db.models import Producto
 
+
 def consultar_stock(producto_id):
     producto = session.query(Producto).filter_by(id_producto=producto_id).first()
     return producto if producto else 0
