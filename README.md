@@ -44,6 +44,10 @@ La gestión de inventarios también es centralizada, permitiendo a la matriz mon
 ### Levantar Backend
 
 ```bash
+python3 -m venv venv
+
+source venv/bin/activate
+
 docker network create soa
 
 docker run -d -p 5000:5000 --name soabus --network soa jrgiadach/soabus:v1
