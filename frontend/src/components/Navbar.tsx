@@ -9,12 +9,27 @@ export default function Navbar() {
     {
       icon: "icon",
       name: "Inventario",
-      url: "/Inventario",
+      url: "/inventario",
     },
     {
       icon: "icon",
       name: "Proveedores",
       url: "/proveedores",
+    },
+    {
+      icon: "icon",
+      name: "Reportes",
+      url: "/reportes",
+    },
+    {
+      icon: "icon",
+      name: "Registro",
+      url: "/registro",
+    },
+    {
+      icon: "icon",
+      name: "Login",
+      url: "/login",
     },
   ];
   return (
