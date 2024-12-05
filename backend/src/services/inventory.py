@@ -28,12 +28,11 @@ def run_inventario_service(s: service.Service):
 
         elif action == 'crear_producto':
             nuevo_producto = {
-                'id_producto': request.content['id_producto'],
-                'nombre_producto': request.content['nombre_producto'],
-                'descripcion': request.content['descripcion'],
-                'precio': request.content['precio'],
-                'cantidad': request.content['cantidad'],
-                'id_proveedor': request.content['id_proveedor'],
+                'nombre_producto': body['nombre_producto'],
+                'descripcion': body['descripcion'],
+                'precio': body['precio'],
+                'cantidad': body['cantidad'],
+                'id_proveedor': body['id_proveedor'],
             }
             db.crear_producto(nuevo_producto)
             response = service.Response(s.name, {'status': 'success'})

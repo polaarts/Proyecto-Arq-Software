@@ -21,7 +21,6 @@ def actualizar_stock(producto_id, cantidad):
 
 def crear_producto(producto):
     nuevo_producto = Producto(
-        id_producto=producto['id_producto'],
         nombre_producto=producto['nombre_producto'],
         descripcion=producto['descripcion'],
         precio=producto['precio'],
