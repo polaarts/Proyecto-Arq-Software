@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { Table, Flex, Heading, TextField } from "@radix-ui/themes";
 import {
   Pencil1Icon,
@@ -6,6 +8,8 @@ import {
 } from "@radix-ui/react-icons";
 
 export default function Inventario() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const headers = [
     "Nombre",
     "Tipo",
@@ -56,15 +60,31 @@ export default function Inventario() {
     },
   ];
 
+  // Filtrar los datos según el término de búsqueda
+  const filteredData = data.filter((product) => {
+    if (searchTerm === "") {
+      return true;
+    }
+    return Object.values(product).some((value) =>
+      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
     <>
       <Heading className="mb-4">Gestión del Inventario</Heading>
 
-      <TextField.Root mb="5" variant="soft" placeholder="Enter package number">
+      <TextField.Root
+        mb="5"
+        variant="soft"
+        placeholder="Buscar..."
+        onChange={(e) => setSearchTerm(e.target.value)}
+      >
         <TextField.Slot>
           <MagnifyingGlassIcon />
         </TextField.Slot>
       </TextField.Root>
+
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -77,7 +97,7 @@ export default function Inventario() {
         </Table.Header>
 
         <Table.Body>
-          {data.map((product) => (
+          {filteredData.map((product) => (
             <Table.Row key={`${product.nombre}-${product.sucursal}`}>
               <Table.Cell>{product.nombre}</Table.Cell>
               <Table.Cell>{product.tipo}</Table.Cell>
@@ -90,8 +110,8 @@ export default function Inventario() {
               <Table.Cell>
                 <Flex gap="2">
                   {keys.map((key, index) => {
-                    const Component = actions[key];
-                    return <Component key={index} />;
+                    const IconComponent = actions[key];
+                    return <IconComponent key={index} />;
                   })}
                 </Flex>
               </Table.Cell>
