@@ -6,7 +6,19 @@ La gestión de inventarios también es centralizada, permitiendo a la matriz mon
 
 **Integrantes:** Samuel Angulo, Alan Toro, Guandgyi Qi, Pedro Sandoval, Alan Toro.
 
-## Requerimientos funcionales.
+### Levantar Backend
+
+```bash
+python3 -m venv venv
+
+source venv/bin/activate
+
+docker network create soa
+
+docker run -d -p 5000:5000 --name soabus --network soa jrgiadach/soabus:v1
+```
+
+## Requerimientos funcionales implementados.
 
 ### A. Requerimientos de Gestión:
 
@@ -40,15 +52,3 @@ La gestión de inventarios también es centralizada, permitiendo a la matriz mon
 - **RF13**: Control de acceso basado en niveles de seguridad. Los administradores tienen permisos completos para modificar el inventario, mientras que los empleados de bodega tienen acceso limitado a la consulta y actualización de stock. Estos niveles de acceso son destinados a la protección de la integridad de los datos y para garantizar que solamente usuarios autorizados puedan realizar modificaciones.
 
 - **RF14**: Mantener un registro de las modificaciones realizadas en el inventario.
-
-### Levantar Backend
-
-```bash
-python3 -m venv venv
-
-source venv/bin/activate
-
-docker network create soa
-
-docker run -d -p 5000:5000 --name soabus --network soa jrgiadach/soabus:v1
-```
