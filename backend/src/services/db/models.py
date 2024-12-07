@@ -13,7 +13,7 @@ class Producto(Base):
     precio = Column(Float, nullable=False)
     cantidad = Column(Integer, nullable=False)
     id_producto = Column(Integer, primary_key=True, autoincrement=True)
-    id_proveedor = Column(Integer)
+    id_proveedor = Column(Integer, ForeignKey('proveedores.id_proveedor'))
     id_categoria = Column(Integer, ForeignKey('categorias.id_categoria'), nullable=True)
 
     categoria = relationship('Categoria', backref='productos')
@@ -38,3 +38,15 @@ class VentaProducto(Base):
     id_producto = Column(Integer, ForeignKey('productos.id_producto'), primary_key=True)
     cantidad = Column(Integer, nullable=False)
     precio_unitario = Column(Float, nullable=False)
+
+class Proveedor(Base):
+    __tablename__ = 'proveedores'
+
+    id_proveedor = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    nombre = Column(String(100), nullable=False)
+    contacto = Column(String(100), nullable=False)
+    telefono = Column(String(15), nullable=False)
+    email = Column(String(100), nullable=False, unique=True)
+    direccion = Column(String(255), nullable=True)
+
+    productos = relationship('Producto', backref='proveedor')

@@ -18,7 +18,7 @@ class InventarioRequest(BaseModel):
     id_proveedor: int = None
 
 @app.post("/inventario/producto")
-async def send_request_to_service(request: InventarioRequest):
+async def create_product(request: InventarioRequest):
     c = client.Client()
 
     request_body = {
@@ -35,6 +35,50 @@ async def send_request_to_service(request: InventarioRequest):
     response = c.receive()
 
     return response.content
+
+@app.delete("/inventario/producto/{producto_id}")
+async def delete_product(producto_id: str):
+    c = client.Client()
+
+    request_body = {
+        "producto_id": producto_id
+    }
+    service_request = client.Request('inven', {'action': "eliminar_producto", 'body': request_body})
+
+    c.send(service_request)
+    response = c.receive()
+
+    return response.content
+
+@app.get("/inventario/producto/buscar")
+async def get_product_by_id(request: InventarioRequest):
+    c = client.Client()
+
+    request_body = {
+        "nombre_producto": request.nombre_producto
+    }
+    service_request = client.Request('inven', {'action': "buscar_producto_filtros", 'body': request_body})
+
+    c.send(service_request)
+    response = c.receive()
+
+    return response.content
+
+@app.put("/inventario/producto/{producto_id}")
+async def update_product_stock(producto_id: str, request: InventarioRequest):
+    c = client.Client()
+
+    request_body = {
+        "producto_id": producto_id,
+        "cantidad": request.cantidad
+    }
+    service_request = client.Request('inven', {'action': "actualizar_stock", 'body': request_body})
+
+    c.send(service_request)
+    response = c.receive()
+
+    return response.content
+
 
 @app.get("/inventario/producto/{producto_id}")
 async def get_product_by_id(producto_id: str):
@@ -61,6 +105,17 @@ async def list_all_products():
 
     if not response.content.get('productos'):
         raise HTTPException(status_code=404, detail="No products found")
+
+    return response.content
+
+@app.get("/inventario/productos/bajo_stock")
+async def list_low_stock():
+    c = client.Client()
+
+    service_request = client.Request('inven', {'action': "listar_bajo_stock", 'body': {}})
+
+    c.send(service_request)
+    response = c.receive()
 
     return response.content
 

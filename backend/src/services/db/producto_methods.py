@@ -50,20 +50,44 @@ def listar_productos():
         } for p in productos
     ]
 
+def eliminar_producto(producto_id):
+    producto = session.query(Producto).filter_by(id_producto=producto_id).first()
+    if producto:
+        session.delete(producto)
+        session.commit()
+        return True
+    return False
+
+def listar_bajo_stock():
+    query = session.query(Producto)
+
+    query = query.filter(Producto.cantidad <= 10)
+
+    productos = query.all()
+    return [
+        {
+            'id_producto': p.id_producto,
+            'nombre_producto': p.nombre_producto,
+            'descripcion': p.descripcion,
+            'precio': p.precio,
+            'cantidad': p.cantidad,
+            'id_proveedor': p.id_proveedor,
+        } for p in productos
+    ]
+
 def buscar_productos(filtros):
-    query = db.query(Producto)
+    query = session.query(Producto)
 
-    if 'nombre_producto' in filtros:
-        query = query.filter(Producto.nombre_producto.ilike(f"%{filtros['nombre_producto']}%"))
-    if 'tipo' in filtros:
-        query = query.filter(Producto.descripcion.ilike(f"%{filtros['tipo']}%"))
-    if 'marca' in filtros:
-        query = query.filter(Producto.descripcion.ilike(f"%{filtros['marca']}%"))
-    if 'precio' in filtros:
-        precio_filtro = filtros['precio']
-        if 'min' in precio_filtro:
-            query = query.filter(Producto.precio >= precio_filtro['min'])
-        if 'max' in precio_filtro:
-            query = query.filter(Producto.precio <= precio_filtro['max'])
+    query = query.filter(Producto.nombre_producto.ilike(f"%{filtros}%"))
 
-    return query.all()
+    productos = query.all()
+    return [
+        {
+            'id_producto': p.id_producto,
+            'nombre_producto': p.nombre_producto,
+            'descripcion': p.descripcion,
+            'precio': p.precio,
+            'cantidad': p.cantidad,
+            'id_proveedor': p.id_proveedor,
+        } for p in productos
+    ]

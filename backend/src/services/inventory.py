@@ -38,12 +38,22 @@ def run_inventario_service(s: service.Service):
             db.crear_producto(nuevo_producto)
             response = service.Response(s.name, {'status': 'success'})
 
+        elif action == 'eliminar_producto':
+            producto_id = body['producto_id']
+            producto = db.eliminar_producto(producto_id)
+            response = service.Response(s.name, {'status': 'success', 'message': f'Producto {producto_id} eliminado exitosamente.'})
+
+
         elif action == 'listar_productos':
             productos = db.listar_productos()
             response = service.Response(s.name, {'productos': productos})
 
+        elif action == 'listar_bajo_stock':
+            productos = db.listar_bajo_stock()
+            response = service.Response(s.name, {'productos': productos})
+
         elif action == 'buscar_producto_filtros':
-            filtros = body['filtros']
+            filtros = body['nombre_producto']
             productos = db.buscar_productos(filtros)
             response = service.Response(s.name, {'productos': productos})
 
