@@ -10,7 +10,6 @@ from src.services.db.models import Categoria, Producto
 
 def crear_categoria(categoria):
     nueva_categoria = Categoria(
-        id_categoria=categoria['id_categoria'],
         nombre_categoria=categoria['nombre_categoria'],
     )
     session.add(nueva_categoria)
@@ -41,4 +40,13 @@ def listar_productos_de_categoria(categoria_id):
             'cantidad': p.cantidad,
             'id_proveedor': p.id_proveedor,
         } for p in productos
+    ]
+
+def listar_categorias():
+    categorias = session.query(Categoria).all()
+    return [
+        {
+            'id_categoria': c.id_categoria,
+            'nombre_categoria': c.nombre_categoria,
+        } for c in categorias
     ]
