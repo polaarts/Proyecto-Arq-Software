@@ -13,18 +13,8 @@ export default function Navbar() {
     },
     {
       icon: "icon",
-      name: "Proveedores",
-      url: "/proveedores",
-    },
-    {
-      icon: "icon",
       name: "Reportes",
       url: "/reportes",
-    },
-    {
-      icon: "icon",
-      name: "Registro",
-      url: "/registro",
     },
     {
       icon: "icon",

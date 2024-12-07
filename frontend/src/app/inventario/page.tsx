@@ -81,12 +81,10 @@ export default function Inventario() {
 
   const headers = [
     "Nombre",
-    "Tipo",
-    "Marca",
+    "Descripcion",
     "Precio",
     "Categoría",
     "Sucursal",
-    "Vencimiento",
     "Stock",
     "Acciones",
   ];
@@ -220,12 +218,10 @@ export default function Inventario() {
           {filteredData.map((product) => (
             <Table.Row key={product.id}>
               <Table.Cell>{product.nombre}</Table.Cell>
-              <Table.Cell>{product.tipo}</Table.Cell>
-              <Table.Cell>{product.marca}</Table.Cell>
+              <Table.Cell>{product.descripcion}</Table.Cell>
               <Table.Cell>{product.precio}</Table.Cell>
               <Table.Cell>{product.categoria.join(", ")}</Table.Cell>
               <Table.Cell>{product.sucursal}</Table.Cell>
-              <Table.Cell>{product.vencimiento}</Table.Cell>
               <Table.Cell>{product.stock}</Table.Cell>
               <Table.Cell>
                 <Flex gap="2">
