@@ -17,6 +17,7 @@ docker network create soa
 
 docker run -d -p 5000:5000 --name soabus --network soa jrgiadach/soabus:v1
 ```
+### Frontend (WIP, todavía no funcional)
 
 ## Requerimientos funcionales implementados.
 
