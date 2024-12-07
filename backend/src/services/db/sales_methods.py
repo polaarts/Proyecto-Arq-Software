@@ -46,9 +46,19 @@ def consultar_venta_por_id(venta_id):
 
 def listar_ventas():
     ventas = session.query(Venta).all()
-    return [
-        {
+    ventas_formateadas = []
+
+    for venta in ventas:
+        productos = session.query(VentaProducto).filter_by(id_venta=venta.id_venta).all()
+        ventas_formateadas.append({
             'id_venta': venta.id_venta,
             'total': venta.total,
-        } for venta in ventas
-    ]
+            'productos': [
+                {
+                    'id_producto': p.id_producto,
+                    'cantidad': p.cantidad,
+                } for p in productos
+            ]
+        })
+
+    return ventas_formateadas
