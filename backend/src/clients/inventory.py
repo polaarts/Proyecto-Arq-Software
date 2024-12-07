@@ -16,7 +16,6 @@ class InventarioRequest(BaseModel):
     descripcion: str = None
     precio: float = None
     id_proveedor: int = None
-    id_sucursal: int = None
 
 @app.post("/inventario/producto")
 async def send_request_to_service(request: InventarioRequest):
@@ -29,9 +28,8 @@ async def send_request_to_service(request: InventarioRequest):
         "descripcion": request.descripcion,
         "precio": request.precio,
         "id_proveedor": request.id_proveedor,
-        "id_sucursal": request.id_sucursal
     }
-    service_request = client.Request('login', {'action': 'crear_producto', 'body': request_body})
+    service_request = client.Request('inven', {'action': 'crear_producto', 'body': request_body})
 
     c.send(service_request)
     response = c.receive()
@@ -49,9 +47,6 @@ async def get_product_by_id(producto_id: str):
 
     c.send(service_request)
     response = c.receive()
-
-    if response.content.get('stock') is None:
-        raise HTTPException(status_code=404, detail="Product not found")
 
     return response.content
 

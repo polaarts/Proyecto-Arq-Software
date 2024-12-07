@@ -9,9 +9,16 @@ from src.services.db.db_session import session
 from src.services.db.models import Producto
 
 
-def consultar_stock(producto_id):
-    producto = session.query(Producto).filter_by(id_producto=producto_id).first()
-    return producto if producto else 0
+def consultar_por_id(producto_id):
+    p = session.query(Producto).filter_by(id_producto=producto_id).first()
+    return {
+        'id_producto': p.id_producto,
+        'nombre_producto': p.nombre_producto,
+        'descripcion': p.descripcion,
+        'precio': p.precio,
+        'cantidad': p.cantidad,
+        'id_proveedor': p.id_proveedor,
+    } if p else 0
 
 def actualizar_stock(producto_id, cantidad):
     producto = session.query(Producto).filter_by(id_producto=producto_id).first()

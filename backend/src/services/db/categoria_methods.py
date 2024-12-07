@@ -26,7 +26,7 @@ def agregar_producto_a_categoria(categoria_id, producto_id):
 def quitar_producto_de_categoria(categoria_id, producto_id):
     producto = session.query(Producto).filter_by(id_producto=producto_id, id_categoria=categoria_id).first()
     if producto:
-        session.delete(producto)
+        producto.id_categoria = None
         session.commit()
 
 def listar_productos_de_categoria(categoria_id):

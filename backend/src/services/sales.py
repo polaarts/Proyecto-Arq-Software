@@ -63,6 +63,9 @@ def run_ventas_service(s: service.Service):
                     'venta_id': venta_id,
                     'total': total
                 })
+        elif action == 'listar_ventas':
+            ventas = db.listar_ventas()
+            response = service.Response(s.name, {'ventas': ventas})
 
         else:
             response = service.Response(s.name, {'status': 'failure', 'error': 'Invalid action'})
