@@ -13,14 +13,24 @@ export default function Navbar() {
     },
     {
       icon: "icon",
-      name: "Reportes",
-      url: "/reportes",
+      name: "Crear venta",
+      url: "/ventaCrear",
     },
     {
       icon: "icon",
-      name: "Login",
-      url: "/login",
+      name: "Listado de ventas",
+      url: "/ventaListar",
     },
+    {
+      icon: "icon",
+      name: "Agregar proveedor",
+      url: "/proveedorAgregar",
+    },
+    {
+      icon: "icon",
+      name: "Listar proveedores",
+      url: "/proveedorListar",
+    }
   ];
   return (
     <Flex gap="3" justify="center" className="py-6">
