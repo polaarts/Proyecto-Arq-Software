@@ -4,7 +4,7 @@ El sistema a desarrollar es un Sistema de Gestión de Inventarios para una tiend
 
 La gestión de inventarios también es centralizada, permitiendo a la matriz monitorear en tiempo real el stock de todas las sucursales. Sin embargo, cada tienda puede hacer ajustes manuales en su propio inventario si es necesario.
 
-**Integrantes:** Samuel Angulo, Alan Toro, Guandgyi Qi, Pedro Sandoval, Alan Toro.
+**Integrantes:** Samuel Angulo, Nicolás Guerra, Guandgyi Qi, Pedro Sandoval, Alan Toro.
 
 ### Levantar Backend
 
@@ -16,7 +16,14 @@ source venv/bin/activate
 docker network create soa
 
 docker run -d -p 5000:5000 --name soabus --network soa jrgiadach/soabus:v1
+
+pip install -r requirements.txt
+
+pip install "fastapi[standard]"
+
+fastapi dev src/clients/main.py
 ```
+
 ### Frontend (WIP, todavía no funcional)
 
 ## Requerimientos funcionales implementados.
