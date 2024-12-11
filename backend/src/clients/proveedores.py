@@ -1,85 +1,82 @@
 #!/usr/bin/env python3
-#
+
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
+from typing import List
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from src.bus import client
+from pydantic import BaseModel, EmailStr
+from fastapi.middleware.cors import CORSMiddleware
 
+# Simulación de base de datos en memoria
+proveedores_db = {}
+
+# Inicialización de la app
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ProveedorRequest(BaseModel):
     nombre: str
     contacto: str
     telefono: str
-    email: str
+    email: EmailStr
     direccion: str
 
-@app.post("/proveedor")
+class ProveedorResponse(BaseModel):
+    id: int
+    nombre: str
+    contacto: str
+    telefono: str
+    email: EmailStr
+    direccion: str
+
+@app.post("/proveedor", response_model=ProveedorResponse)
 async def registrar_proveedor(request: ProveedorRequest):
-    c = client.Client()
-    request_body = {
-        "nombre": request.nombre,
-        "contacto": request.contacto,
-        "telefono": request.telefono,
-        "email": request.email,
-        "direccion": request.direccion,
+    """Registrar un nuevo proveedor"""
+    proveedor_id = len(proveedores_db) + 1
+    nuevo_proveedor = {
+        "id": proveedor_id,
+        **request.dict()
     }
-    service_request = client.Request('prove', {'action': 'registrar_proveedor', 'body': request_body})
+    proveedores_db[proveedor_id] = nuevo_proveedor
+    return nuevo_proveedor
 
-    c.send(service_request)
-    response = c.receive()
+@app.get("/proveedor/{proveedor_id}", response_model=ProveedorResponse)
+async def get_proveedor_by_id(proveedor_id: int):
+    """Obtener un proveedor por su ID"""
+    proveedor = proveedores_db.get(proveedor_id)
+    if not proveedor:
+        raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    return proveedor
 
-    return response.content
-
-@app.get("/proveedor/{proveedor_id}")
-async def get_proveedor_by_id(proveedor_id: str):
-    c = client.Client()
-
-    request_body = { "id_proveedor": proveedor_id }
-    service_request = client.Request('prove', {'action': 'consultar_por_id', 'body': request_body})
-
-    c.send(service_request)
-    response = c.receive()
-
-    return response.content
-
-@app.get("/proveedores")
+@app.get("/proveedores", response_model=List[ProveedorResponse])
 async def listar_proveedores():
-    c = client.Client()
-    service_request = client.Request('prove', {'action': 'listar_proveedores', 'body': {}})
+    """Listar todos los proveedores"""
+    return list(proveedores_db.values())
 
-    c.send(service_request)
-    response = c.receive()
+@app.delete("/proveedor/{proveedor_id}", response_model=dict)
+async def eliminar_proveedor(proveedor_id: int):
+    """Eliminar un proveedor por su ID"""
+    if proveedor_id not in proveedores_db:
+        raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    del proveedores_db[proveedor_id]
+    return {"message": "Proveedor eliminado con éxito"}
 
-    if not response.content.get('proveedores'):
-        raise HTTPException(status_code=404, detail="No providers found")
-
-    return response.content
-
-@app.delete("/proveedor/{proveedor_id}")
-async def eliminar_proveedor(proveedor_id: str):
-    c = client.Client()
-    request_body = {"proveedor_id": proveedor_id}
-    service_request = client.Request('prove', {'action': 'eliminar_proveedor', 'body': request_body})
-
-    c.send(service_request)
-    response = c.receive()
-
-    return response.content
-
-@app.post("/proveedor/{proveedor_id}")
-async def reabastecimiento(proveedor_id: str):
-    c = client.Client()
-    request_body = {"proveedor_id": proveedor_id}
-    service_request = client.Request('prove', {'action': 'solicitud_reabastecimiento', 'body': request_body})
-
-    c.send(service_request)
-    response = c.receive()
-
-    return response.content
+@app.post("/proveedor/{proveedor_id}/reabastecimiento", response_model=dict)
+async def reabastecimiento(proveedor_id: int):
+    """Solicitar reabastecimiento a un proveedor"""
+    proveedor = proveedores_db.get(proveedor_id)
+    if not proveedor:
+        raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    return {"message": f"Reabastecimiento solicitado al proveedor {proveedor['nombre']}"}
 
 if __name__ == '__main__':
     import uvicorn
