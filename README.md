@@ -30,33 +30,19 @@ fastapi dev src/clients/main.py
 
 ### A. Requerimientos de Gestión:
 
-- **RF1**: Registrar, editar y eliminar productos.
-- **RF2**: Proporcionar un buscador que permita filtrar productos por nombre, tipo, marca, precio, etc.
-- **RF3**: Permitir la creación de categorías personalizadas para organizar los productos del inventario según las necesidades de la tienda.
+- **RF1**: Registrar, editar, eliminar y listar productos del inventario.
+- **RF2**: Proporcionar un buscador que permita filtrar productos por nombre.
+- **RF3**: Permitir la creación de categorías personalizadas para organizar los productos del
+inventario según las necesidades de la tienda.
+- **RF4**: Modificar el Stock de un producto.
+- **RF5**: Agregar, visualizar y eliminar productos a una categoría.
+- **RF6**: Se puede listar los productos con menos de 10 unidades en inventario para verificar
+baja de stock.
 
-### B. Requerimientos de Monitoreo:
+### B. Requerimientos de gestión de ventas:
+- **RF7**: Se puede crear una venta.
+- **RF8**: Se puede listar el total de ventas.
 
-- **RF4**: Actualización en tiempo real del stock de cada sucursal al realizar ventas, devoluciones o entradas de nuevos productos.
-- **RF5**: Visualización de inventario por categoría o por sucursal.
-- **RF6**: Monitorear los productos que están por alcanzar su fecha de vencimiento y generar alertas para su pronta venta o disposición.
-
-### C. Requerimientos de notificaciones:
-
-- **RF7**: Alertas para productos bajos en stock.
-- **RF8**: Notificaciones para reabastecimiento programado.
-
-### D. Requerimientos de gestión de proveedores:
-
-- **RF9**: Registro y gestión de proveedores.
-- **RF10**: Creación de órdenes de compra automatizadas.
-
-### E. Requerimientos de reportes y análisis:
-
-- **RF11**: Generación de reportes de inventario, ventas y productos más vendidos.
-- **RF12**: Visualización de tendencias de ventas mediante gráficos mensuales en donde se incluyen los productos más vendidos, las fechas de mayor demanda y la variabilidad de stock a lo largo del tiempo. Estos gráficos pueden ser barras, líneas de tiempo y tablas dinámicas.
-
-### F. Requerimientos de seguridad y acceso:
-
-- **RF13**: Control de acceso basado en niveles de seguridad. Los administradores tienen permisos completos para modificar el inventario, mientras que los empleados de bodega tienen acceso limitado a la consulta y actualización de stock. Estos niveles de acceso son destinados a la protección de la integridad de los datos y para garantizar que solamente usuarios autorizados puedan realizar modificaciones.
-
-- **RF14**: Mantener un registro de las modificaciones realizadas en el inventario.
+### C. Requerimientos de gestión de proveedores:
+- **RF9**: Agregar, listar y eliminar de proveedores.
+- **RF10**: Enviar solicitud de re-abastecimiento para una visita a local.
